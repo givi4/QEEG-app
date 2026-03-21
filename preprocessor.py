@@ -166,12 +166,16 @@ def review_epochs(
 # STEP 5 — FINALIZE: drop bad epochs, return clean data
 # ─────────────────────────────────────────────────────────────────────────────
 def finalize_epochs(
-    epochs: mne.Epochs,
-    bad_indices: list[int]
+    epochs:      mne.Epochs,
+    bad_indices: list[int]    # kept for API compatibility, MNE handles drops internally
 ) -> np.ndarray:
     """
-    MNE's browser already dropped bad epochs interactively.
-    We just retrieve whatever clean epochs remain.
+    Return clean epoch data after MNE's interactive browser has
+    already dropped bad epochs in-place.
+
+    Note: bad_indices is intentionally ignored here — MNE's epoch
+    browser drops epochs directly on the Epochs object during
+    interactive review. We simply retrieve whatever survived.
     """
     clean_data = epochs.get_data()
     n_good     = clean_data.shape[0]
@@ -181,9 +185,15 @@ def finalize_epochs(
     print(f"    Good epochs : {n_good}")
     print(f"    Clean data  : {duration:.1f}s used for analysis")
 
+    if n_good == 0:
+        raise RuntimeError(
+            "No clean epochs remain after artifact rejection. "
+            "Consider raising the amplitude threshold or reviewing fewer epochs."
+        )
+
     if n_good < 6:
         print(f"    ⚠️  Only {n_good} clean epochs — results may be unreliable.")
-        print(f"       Consider using a longer recording.")
+        print(f"       Aim for at least 40 epochs (200s) for stable power estimates.")
 
     return clean_data
 

@@ -1,0 +1,516 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "source": "Literature-derived adult norms (eyes-closed resting state). Nayak & Anilkumar 2022 StatPearls; Barry & De Blasio 2017 Clin Neurophysiology; Clarke et al 2001 Clin Neurophysiology; Sanei & Chambers 2007 EEG Signal Processing. NOT a validated normative database \u2014 reference use only.",
+    "power_type": "relative",
+    "eyes_condition": "closed",
+    "age_range": "18-99",
+    "n_recordings": 0,
+    "age_strata": {
+      "adult": {
+        "min_age": 18,
+        "max_age": 99
+      },
+      "child": null
+    }
+  },
+  "norms": {
+    "adult": {
+      "FP1": {
+        "Delta": {
+          "mean": 0.32,
+          "std": 0.09
+        },
+        "Theta": {
+          "mean": 0.21,
+          "std": 0.07
+        },
+        "Alpha": {
+          "mean": 0.22,
+          "std": 0.08
+        },
+        "Beta": {
+          "mean": 0.13,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.06,
+          "std": 0.03
+        },
+        "Gamma": {
+          "mean": 0.04,
+          "std": 0.02
+        }
+      },
+      "FP2": {
+        "Delta": {
+          "mean": 0.32,
+          "std": 0.09
+        },
+        "Theta": {
+          "mean": 0.21,
+          "std": 0.07
+        },
+        "Alpha": {
+          "mean": 0.22,
+          "std": 0.08
+        },
+        "Beta": {
+          "mean": 0.13,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.06,
+          "std": 0.03
+        },
+        "Gamma": {
+          "mean": 0.04,
+          "std": 0.02
+        }
+      },
+      "F7": {
+        "Delta": {
+          "mean": 0.28,
+          "std": 0.08
+        },
+        "Theta": {
+          "mean": 0.2,
+          "std": 0.07
+        },
+        "Alpha": {
+          "mean": 0.25,
+          "std": 0.08
+        },
+        "Beta": {
+          "mean": 0.14,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.06,
+          "std": 0.03
+        },
+        "Gamma": {
+          "mean": 0.04,
+          "std": 0.02
+        }
+      },
+      "F3": {
+        "Delta": {
+          "mean": 0.27,
+          "std": 0.08
+        },
+        "Theta": {
+          "mean": 0.19,
+          "std": 0.07
+        },
+        "Alpha": {
+          "mean": 0.27,
+          "std": 0.08
+        },
+        "Beta": {
+          "mean": 0.14,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.06,
+          "std": 0.03
+        },
+        "Gamma": {
+          "mean": 0.04,
+          "std": 0.02
+        }
+      },
+      "FZ": {
+        "Delta": {
+          "mean": 0.27,
+          "std": 0.08
+        },
+        "Theta": {
+          "mean": 0.19,
+          "std": 0.07
+        },
+        "Alpha": {
+          "mean": 0.27,
+          "std": 0.08
+        },
+        "Beta": {
+          "mean": 0.14,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.06,
+          "std": 0.03
+        },
+        "Gamma": {
+          "mean": 0.04,
+          "std": 0.02
+        }
+      },
+      "F4": {
+        "Delta": {
+          "mean": 0.27,
+          "std": 0.08
+        },
+        "Theta": {
+          "mean": 0.19,
+          "std": 0.07
+        },
+        "Alpha": {
+          "mean": 0.27,
+          "std": 0.08
+        },
+        "Beta": {
+          "mean": 0.14,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.06,
+          "std": 0.03
+        },
+        "Gamma": {
+          "mean": 0.04,
+          "std": 0.02
+        }
+      },
+      "F8": {
+        "Delta": {
+          "mean": 0.28,
+          "std": 0.08
+        },
+        "Theta": {
+          "mean": 0.2,
+          "std": 0.07
+        },
+        "Alpha": {
+          "mean": 0.25,
+          "std": 0.08
+        },
+        "Beta": {
+          "mean": 0.14,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.06,
+          "std": 0.03
+        },
+        "Gamma": {
+          "mean": 0.04,
+          "std": 0.02
+        }
+      },
+      "CZ": {
+        "Delta": {
+          "mean": 0.22,
+          "std": 0.07
+        },
+        "Theta": {
+          "mean": 0.17,
+          "std": 0.06
+        },
+        "Alpha": {
+          "mean": 0.35,
+          "std": 0.09
+        },
+        "Beta": {
+          "mean": 0.14,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.05,
+          "std": 0.03
+        },
+        "Gamma": {
+          "mean": 0.03,
+          "std": 0.02
+        }
+      },
+      "C3": {
+        "Delta": {
+          "mean": 0.22,
+          "std": 0.07
+        },
+        "Theta": {
+          "mean": 0.17,
+          "std": 0.06
+        },
+        "Alpha": {
+          "mean": 0.35,
+          "std": 0.09
+        },
+        "Beta": {
+          "mean": 0.14,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.05,
+          "std": 0.03
+        },
+        "Gamma": {
+          "mean": 0.03,
+          "std": 0.02
+        }
+      },
+      "C4": {
+        "Delta": {
+          "mean": 0.22,
+          "std": 0.07
+        },
+        "Theta": {
+          "mean": 0.17,
+          "std": 0.06
+        },
+        "Alpha": {
+          "mean": 0.35,
+          "std": 0.09
+        },
+        "Beta": {
+          "mean": 0.14,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.05,
+          "std": 0.03
+        },
+        "Gamma": {
+          "mean": 0.03,
+          "std": 0.02
+        }
+      },
+      "T7": {
+        "Delta": {
+          "mean": 0.24,
+          "std": 0.08
+        },
+        "Theta": {
+          "mean": 0.18,
+          "std": 0.06
+        },
+        "Alpha": {
+          "mean": 0.32,
+          "std": 0.09
+        },
+        "Beta": {
+          "mean": 0.14,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.05,
+          "std": 0.03
+        },
+        "Gamma": {
+          "mean": 0.03,
+          "std": 0.02
+        }
+      },
+      "T8": {
+        "Delta": {
+          "mean": 0.24,
+          "std": 0.08
+        },
+        "Theta": {
+          "mean": 0.18,
+          "std": 0.06
+        },
+        "Alpha": {
+          "mean": 0.32,
+          "std": 0.09
+        },
+        "Beta": {
+          "mean": 0.14,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.05,
+          "std": 0.03
+        },
+        "Gamma": {
+          "mean": 0.03,
+          "std": 0.02
+        }
+      },
+      "P7": {
+        "Delta": {
+          "mean": 0.16,
+          "std": 0.06
+        },
+        "Theta": {
+          "mean": 0.14,
+          "std": 0.05
+        },
+        "Alpha": {
+          "mean": 0.46,
+          "std": 0.1
+        },
+        "Beta": {
+          "mean": 0.13,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.04,
+          "std": 0.02
+        },
+        "Gamma": {
+          "mean": 0.03,
+          "std": 0.02
+        }
+      },
+      "P3": {
+        "Delta": {
+          "mean": 0.15,
+          "std": 0.06
+        },
+        "Theta": {
+          "mean": 0.13,
+          "std": 0.05
+        },
+        "Alpha": {
+          "mean": 0.48,
+          "std": 0.1
+        },
+        "Beta": {
+          "mean": 0.13,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.04,
+          "std": 0.02
+        },
+        "Gamma": {
+          "mean": 0.03,
+          "std": 0.02
+        }
+      },
+      "PZ": {
+        "Delta": {
+          "mean": 0.15,
+          "std": 0.06
+        },
+        "Theta": {
+          "mean": 0.13,
+          "std": 0.05
+        },
+        "Alpha": {
+          "mean": 0.48,
+          "std": 0.1
+        },
+        "Beta": {
+          "mean": 0.13,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.04,
+          "std": 0.02
+        },
+        "Gamma": {
+          "mean": 0.03,
+          "std": 0.02
+        }
+      },
+      "P4": {
+        "Delta": {
+          "mean": 0.15,
+          "std": 0.06
+        },
+        "Theta": {
+          "mean": 0.13,
+          "std": 0.05
+        },
+        "Alpha": {
+          "mean": 0.48,
+          "std": 0.1
+        },
+        "Beta": {
+          "mean": 0.13,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.04,
+          "std": 0.02
+        },
+        "Gamma": {
+          "mean": 0.03,
+          "std": 0.02
+        }
+      },
+      "P8": {
+        "Delta": {
+          "mean": 0.16,
+          "std": 0.06
+        },
+        "Theta": {
+          "mean": 0.14,
+          "std": 0.05
+        },
+        "Alpha": {
+          "mean": 0.46,
+          "std": 0.1
+        },
+        "Beta": {
+          "mean": 0.13,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.04,
+          "std": 0.02
+        },
+        "Gamma": {
+          "mean": 0.03,
+          "std": 0.02
+        }
+      },
+      "O1": {
+        "Delta": {
+          "mean": 0.12,
+          "std": 0.05
+        },
+        "Theta": {
+          "mean": 0.1,
+          "std": 0.04
+        },
+        "Alpha": {
+          "mean": 0.57,
+          "std": 0.11
+        },
+        "Beta": {
+          "mean": 0.12,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.04,
+          "std": 0.02
+        },
+        "Gamma": {
+          "mean": 0.03,
+          "std": 0.02
+        }
+      },
+      "O2": {
+        "Delta": {
+          "mean": 0.12,
+          "std": 0.05
+        },
+        "Theta": {
+          "mean": 0.1,
+          "std": 0.04
+        },
+        "Alpha": {
+          "mean": 0.57,
+          "std": 0.11
+        },
+        "Beta": {
+          "mean": 0.12,
+          "std": 0.05
+        },
+        "HiBeta": {
+          "mean": 0.04,
+          "std": 0.02
+        },
+        "Gamma": {
+          "mean": 0.03,
+          "std": 0.02
+        }
+      }
+    },
+    "child": null
+  }
+}

@@ -22,7 +22,7 @@ from pathlib import Path
 # ─────────────────────────────────────────────
 # CONFIGURATION — edit these
 # ─────────────────────────────────────────────
-EDF_PATH = r"C:\EDFS\1.edf"          # ← Replace with your actual EDF path
+EDF_PATH = r"C:\edfs\1.edf"          # ← Replace with your actual EDF path
 OUTPUT_DIR = "qeeg_output"          # Folder for topomaps and results
 PLACEHOLDER_NORMS_PATH = "normative_data/placeholder_norms.json"
 
@@ -42,25 +42,28 @@ def main():
     print("  QEEG PIPELINE — Standalone Test")
     print("=" * 50)
 
-
-
     # Check EDF file exists
     if not os.path.exists(EDF_PATH):
-        print(f"\n⚠️  EDF file not found: '{EDF_PATH}'")
-        print("   Update EDF_PATH at the top of this script and re-run.")
-        print("\n   Running in DEMO MODE with synthetic data instead...\n")
-        raw = _make_synthetic_raw()    # ← lets you test without a real EDF
+        print(f"\n{'!'*55}")
+        print(f"  DEMO MODE — synthetic data only")
+        print(f"  EDF file not found: '{EDF_PATH}'")
+        print(f"  Results are NOT from real patient data.")
+        print(f"  Update EDF_PATH at the top of this script.")
+        print(f"{'!'*55}\n")
+        raw = _make_synthetic_raw()
     else:
         raw = load_edf(EDF_PATH)
 
     clean_data, epochs = preprocess(raw, interactive=True)
     band_power = compute_band_power(clean_data, raw.info["sfreq"], raw.ch_names)
-    norms   = load_norms()
-    zscores = compute_zscores(band_power, norms)
-    topomap_paths = plot_topomaps(zscores, raw, OUTPUT_DIR)
 
+    # metadata defined BEFORE compute_zscores
     metadata = default_metadata(raw, band_power["n_epochs"], EDF_PATH)
-    report_path = generate_report(
+    norms    = load_norms()
+    zscores  = compute_zscores(band_power, norms, patient_age=metadata.get("patient_age"))
+
+    topomap_paths = plot_topomaps(zscores, raw, OUTPUT_DIR)
+    report_path   = generate_report(
         metadata      = metadata,
         band_power    = band_power,
         zscores       = zscores,
@@ -70,7 +73,6 @@ def main():
 
     print("\n✓ Pipeline complete.")
     print(f"  Output folder: {os.path.abspath(OUTPUT_DIR)}")
-
 
 # ─────────────────────────────────────────────
 # DEMO MODE — Synthetic raw object (no EDF needed)
