@@ -1,0 +1,511 @@
+{
+  "metadata": {
+    "version": "1.1",
+    "source": "placeholder \u2014 populate with real normative values",
+    "power_type": "relative",
+    "bands": [
+      "Delta",
+      "Theta",
+      "Alpha",
+      "Beta",
+      "HiBeta",
+      "Gamma"
+    ]
+  },
+  "norms": {
+    "FP1": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "FP2": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "F7": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "F3": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "FZ": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "F4": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "F8": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "T7": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "C3": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "CZ": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "C4": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "T8": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "P7": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "P3": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "PZ": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "P4": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "P8": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "O1": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    },
+    "O2": {
+      "Delta": {
+        "mean": 0.28,
+        "std": 0.08
+      },
+      "Theta": {
+        "mean": 0.18,
+        "std": 0.06
+      },
+      "Alpha": {
+        "mean": 0.3,
+        "std": 0.09
+      },
+      "Beta": {
+        "mean": 0.1,
+        "std": 0.04
+      },
+      "HiBeta": {
+        "mean": 0.04,
+        "std": 0.02
+      },
+      "Gamma": {
+        "mean": 0.03,
+        "std": 0.02
+      }
+    }
+  }
+}
