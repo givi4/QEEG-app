@@ -52,11 +52,14 @@ def main():
     band_power = compute_band_power(clean_data, raw.info["sfreq"], raw.ch_names)
 
     if artifact_result is not None:
+        artifact_summary_path = os.path.join(OUTPUT_DIR, "artifact_summary.png")
         plot_artifact_summary(
             artifact_result,
-            output_path=os.path.join(OUTPUT_DIR, "artifact_summary.png"),
+            output_path=artifact_summary_path,
             show=False,
         )
+    else:
+        artifact_summary_path = None
 
     metadata = default_metadata(raw, band_power["n_epochs"], EDF_PATH)
     norms = load_norms()
@@ -68,6 +71,8 @@ def main():
         band_power=band_power,
         zscores=zscores,
         topomap_paths=topomap_paths,
+        artifact_result=artifact_result,
+        artifact_summary_path=artifact_summary_path,
         output_path=os.path.join(OUTPUT_DIR, "report.pdf"),
     )
 

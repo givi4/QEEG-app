@@ -204,6 +204,8 @@ def generate_report(
     band_power: dict,
     zscores: dict | None,
     topomap_paths: dict,
+    artifact_result=None,
+    artifact_summary_path: str | None = None,
     output_path: str = "qeeg_output/report.pdf",
 ) -> str:
     print(f"\n[REPORT] Building PDF -> {output_path}")
@@ -269,6 +271,61 @@ def generate_report(
     ]))
     story.append(meta_table)
     story.append(Spacer(1, 6 * mm))
+
+    if artifact_result is not None:
+        story.append(Paragraph("Artifact Summary", S["section"]))
+        story.append(HRFlowable(width=CONTENT_W, thickness=1, color=C_ACCENT))
+        story.append(Spacer(1, 3 * mm))
+
+        bad_window_count = int(artifact_result.bad_windows.sum())
+        total_windows = len(artifact_result.bad_windows)
+        bad_channel_count = len(artifact_result.bad_channels)
+        bad_channel_text = ", ".join(artifact_result.bad_channels) if artifact_result.bad_channels else "None"
+
+        artifact_rows = [
+            ["Window Length", f"{artifact_result.window_duration_s:.1f} s", "Bad Windows", f"{bad_window_count} / {total_windows}"],
+            ["Bad Channels", str(bad_channel_count), "Channel List", bad_channel_text],
+            ["Window Threshold", f"{artifact_result.config.bad_window_channel_fraction:.2f}", "Score Threshold", str(artifact_result.config.score_threshold)],
+        ]
+
+        artifact_table_data = []
+        for row in artifact_rows:
+            artifact_table_data.append([
+                Paragraph(row[0], S["meta_key"]),
+                Paragraph(str(row[1]), S["meta_val"]),
+                Paragraph(row[2], S["meta_key"]),
+                Paragraph(str(row[3]), S["meta_val"]),
+            ])
+
+        artifact_table = Table(
+            artifact_table_data,
+            colWidths=[35 * mm, 55 * mm, 35 * mm, 55 * mm]
+        )
+        artifact_table.setStyle(TableStyle([
+            ("BACKGROUND", (0, 0), (-1, -1), C_LIGHT_GRAY),
+            ("ROWBACKGROUNDS", (0, 0), (-1, -1), [colors.white, C_LIGHT_GRAY]),
+            ("GRID", (0, 0), (-1, -1), 0.4, C_MID_GRAY),
+            ("TOPPADDING", (0, 0), (-1, -1), 5),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+            ("LEFTPADDING", (0, 0), (-1, -1), 6),
+        ]))
+        story.append(artifact_table)
+        story.append(Spacer(1, 3 * mm))
+
+        story.append(Paragraph(
+            "Bad windows are detected on short raw EEG segments before FFT. "
+            "Shaded regions in the interactive MNE view correspond to annotated bad_artifact segments.",
+            S["body"],
+        ))
+        story.append(Spacer(1, 3 * mm))
+
+        if artifact_summary_path and os.path.exists(artifact_summary_path):
+            img = Image(artifact_summary_path, width=CONTENT_W, height=CONTENT_W * 0.60)
+            story.append(img)
+            story.append(Spacer(1, 4 * mm))
+        else:
+            story.append(Paragraph("Artifact summary image not available.", S["small"]))
+            story.append(Spacer(1, 4 * mm))
 
     story.append(Paragraph("Z-Score Topographic Maps", S["section"]))
     story.append(HRFlowable(width=CONTENT_W, thickness=1, color=C_ACCENT))
