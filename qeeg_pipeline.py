@@ -63,7 +63,13 @@ def main():
 
     metadata = default_metadata(raw, band_power["n_epochs"], EDF_PATH)
     norms = load_norms()
-    zscores = compute_zscores(band_power, norms, patient_age=metadata.get("patient_age"))
+    zscores = compute_zscores(
+        band_power,
+        norms,
+        patient_age=metadata.get("patient_age"),
+        eyes_condition=metadata.get("eyes_condition"),
+        analysis_reference=metadata.get("analysis_reference"),
+    )
 
     topomap_paths = plot_topomaps(zscores, raw, OUTPUT_DIR)
     generate_report(

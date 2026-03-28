@@ -1,8 +1,10 @@
 """
 normative.py
 Loads normative data from JSON and computes Z-scores per channel/band.
-Missing norm entries return NaN and are never silently zeroed.
+Supports both the legacy single-adult schema and a stratified open-dataset schema.
 """
+
+from __future__ import annotations
 
 import json
 import math
@@ -27,10 +29,17 @@ def load_norms(path: str = DEFAULT_NORMS_PATH) -> dict:
         with open(path) as f:
             data = json.load(f)
         source = data.get("metadata", {}).get("source", "unknown")
-        n_ch = len(data.get("norms", {}).get("adult", {}))
+        norm_block = data.get("norms", {})
+        if "adult" in norm_block:
+            n_items = len(norm_block.get("adult", {}))
+            schema = "legacy"
+        else:
+            n_items = len(norm_block)
+            schema = "stratified"
         print(f"\n[NORMS] Loaded: {path}")
         print(f"    Source   : {source}")
-        print(f"    Channels : {n_ch}")
+        print(f"    Schema   : {schema}")
+        print(f"    Entries  : {n_items}")
         return data
 
     print(f"\n[NORMS] File not found: {path}")
@@ -51,9 +60,16 @@ def compute_zscores(
     band_power: dict,
     norms: dict,
     patient_age: int = None,
+    eyes_condition: str | None = None,
+    analysis_reference: str | None = None,
+    norm_label: str | None = None,
 ) -> dict | None:
     """
     Compute Z-scores from relative power.
+
+    Supports:
+      - legacy adult-only schema
+      - stratified schema selected by age / eyes_condition / reference mode
     """
     if patient_age is not None and patient_age < MIN_ADULT_AGE:
         print(f"\n[NORMS] [WARN] Patient age {patient_age} < {MIN_ADULT_AGE}.")
@@ -63,10 +79,18 @@ def compute_zscores(
 
     print("\n[NORMS] Computing Z-scores...")
 
-    norm_data = norms.get("norms", {}).get("adult", {})
+    norm_data, selector_label = _select_norm_data(
+        norms=norms,
+        patient_age=patient_age,
+        eyes_condition=eyes_condition,
+        analysis_reference=analysis_reference,
+        norm_label=norm_label,
+    )
     if not norm_data:
-        print("    [WARN] No adult norms found in database.")
+        print("    [WARN] No matching norm stratum found in database.")
         return None
+
+    print(f"    Norm stratum: {selector_label}")
 
     zscores = {}
     missing = []
@@ -93,12 +117,65 @@ def compute_zscores(
     return zscores
 
 
+def _select_norm_data(
+    norms: dict,
+    patient_age: int | None,
+    eyes_condition: str | None,
+    analysis_reference: str | None,
+    norm_label: str | None,
+) -> tuple[dict | None, str]:
+    norm_block = norms.get("norms", {})
+
+    if "adult" in norm_block:
+        return norm_block.get("adult", {}), "adult (legacy)"
+
+    if norm_label and norm_label in norm_block:
+        return norm_block[norm_label], norm_label
+
+    strata = norms.get("metadata", {}).get("strata", [])
+    if not strata:
+        return None, "none"
+
+    eyes_condition = (eyes_condition or "").lower() or None
+    analysis_reference = (analysis_reference or "").lower() or None
+
+    eligible = []
+    for stratum in strata:
+        key = stratum["key"]
+        age_min = stratum.get("age_min")
+        age_max = stratum.get("age_max")
+        age_ok = (
+            patient_age is None
+            or age_min is None
+            or age_max is None
+            or (age_min <= patient_age <= age_max)
+        )
+        eyes_ok = eyes_condition is None or stratum.get("eyes_condition") == eyes_condition
+        ref_ok = analysis_reference is None or stratum.get("reference_mode") == analysis_reference
+        if age_ok and eyes_ok and ref_ok and key in norm_block:
+            eligible.append(stratum)
+
+    if not eligible:
+        return None, "none"
+
+    eligible.sort(
+        key=lambda item: (
+            abs((item.get("age_min", 0) + item.get("age_max", 0)) / 2 - patient_age)
+            if patient_age is not None and item.get("age_min") is not None and item.get("age_max") is not None
+            else 0,
+            -item.get("n_recordings", 0),
+        )
+    )
+    chosen = eligible[0]
+    return norm_block[chosen["key"]], chosen["key"]
+
+
 def _print_zscore_table(zscores: dict, ch_names: list[str]):
     bands = list(FREQ_BANDS.keys())
     header = f"    {'Channel':<8}" + "".join(f"  {b:<12}" for b in bands)
 
     print(f"\n    {'-' * 60}")
-    print("    Z-Score Table (vs. adult normative, relative power)")
+    print("    Z-Score Table (vs. selected normative stratum, relative power)")
     print(f"    {'-' * 60}")
     print(header)
 
@@ -210,16 +287,23 @@ def _literature_adult_norms() -> dict:
 
 def get_norm_summary(norms: dict) -> str:
     meta = norms.get("metadata", {})
-    n_ch = len(norms.get("norms", {}).get("adult", {}))
+    norm_block = norms.get("norms", {})
+    if "adult" in norm_block:
+        n_entries = len(norm_block.get("adult", {}))
+        schema = "legacy"
+    else:
+        n_entries = len(norm_block)
+        schema = "stratified"
     n_rec = meta.get("n_recordings", 0)
     src = meta.get("source", "unknown")
 
     return (
         f"Normative database v{meta.get('version', '?')}\n"
+        f"  Schema      : {schema}\n"
         f"  Source      : {src[:80]}...\n"
-        f"  Channels    : {n_ch}\n"
+        f"  Entries     : {n_entries}\n"
         f"  Recordings  : {n_rec}\n"
         f"  Age range   : {meta.get('age_range', '?')}\n"
         f"  Power type  : {meta.get('power_type', 'relative')}\n"
-        f"  Condition   : {meta.get('eyes_condition', '?')}"
+        f"  Condition   : {meta.get('eyes_condition', 'mixed')}"
     )

@@ -457,6 +457,7 @@ def default_metadata(raw, n_epochs: int, edf_path: str) -> dict:
         "patient_name": "Test Patient",
         "patient_id": "001",
         "patient_age": 35,
+        "eyes_condition": "closed",
         "date": datetime.now().strftime("%Y-%m-%d"),
         "clinician": "-",
         "notes": "Eyes closed, resting state",
