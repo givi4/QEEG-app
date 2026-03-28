@@ -9,6 +9,7 @@ import os
 import mne
 import numpy as np
 
+from artifact_detection import ArtifactDetectionConfig, plot_artifact_summary
 from band_power import compute_band_power
 from edf_loader import load_edf
 from normative import compute_zscores, load_norms
@@ -20,6 +21,9 @@ from visualizer import plot_topomaps
 EDF_PATH = r"C:\edfs\1.edf"
 OUTPUT_DIR = "qeeg_output"
 REFERENCE_MODE = "linked_ears"
+ENABLE_ARTIFACT_DETECTION = True
+ARTIFACT_VISUALIZE = False
+ARTIFACT_CONFIG = ArtifactDetectionConfig(window_length_s=2.0)
 
 
 def main():
@@ -38,8 +42,21 @@ def main():
     else:
         raw = load_edf(EDF_PATH, rereference=REFERENCE_MODE)
 
-    clean_data, epochs = preprocess(raw, interactive=True)
+    clean_data, epochs, artifact_result = preprocess(
+        raw,
+        interactive=True,
+        detect_artifacts_first=ENABLE_ARTIFACT_DETECTION,
+        artifact_config=ARTIFACT_CONFIG,
+        artifact_visualize=ARTIFACT_VISUALIZE,
+    )
     band_power = compute_band_power(clean_data, raw.info["sfreq"], raw.ch_names)
+
+    if artifact_result is not None:
+        plot_artifact_summary(
+            artifact_result,
+            output_path=os.path.join(OUTPUT_DIR, "artifact_summary.png"),
+            show=False,
+        )
 
     metadata = default_metadata(raw, band_power["n_epochs"], EDF_PATH)
     norms = load_norms()

@@ -8,6 +8,13 @@ ready for band power extraction.
 import mne
 import numpy as np
 
+from artifact_detection import (
+    ArtifactDetectionConfig,
+    ArtifactDetectionResult,
+    apply_artifact_annotations,
+    detect_artifacts,
+)
+
 
 BANDPASS_LOW = 1.0
 BANDPASS_HIGH = 40.0
@@ -205,16 +212,42 @@ def preprocess(
     epoch_length: float = EPOCH_LENGTH,
     threshold: float = AMPLITUDE_THRESHOLD,
     interactive: bool = True,
-) -> tuple[np.ndarray, mne.Epochs]:
+    detect_artifacts_first: bool = False,
+    artifact_config: ArtifactDetectionConfig | None = None,
+    artifact_visualize: bool = False,
+) -> tuple[np.ndarray, mne.Epochs, ArtifactDetectionResult | None]:
     """
     Full preprocessing pipeline:
       1. Filter
       2. Epoch
-      3. Auto-reject
-      4. Interactive review (optional)
-      5. Finalize and return clean data
+      3. Optional artifact detection on raw windows
+      4. Auto-reject
+      5. Interactive review (optional)
+      6. Finalize and return clean data
     """
     filtered = filter_raw(raw)
+    artifact_result = None
+
+    if detect_artifacts_first:
+        artifact_result = detect_artifacts(filtered, config=artifact_config)
+        artifact_view = apply_artifact_annotations(filtered, artifact_result)
+        filtered = artifact_view
+        print("\n[PREPROCESS] Artifact detection summary:")
+        print(f"    Bad windows  : {int(artifact_result.bad_windows.sum())} / {len(artifact_result.bad_windows)}")
+        print(f"    Bad channels : {artifact_result.bad_channels or 'None'}")
+        if artifact_visualize:
+            try:
+                artifact_view.plot(
+                    start=0.0,
+                    duration=20.0,
+                    n_channels=min(len(artifact_result.ch_names), 20),
+                    scalings="auto",
+                    block=True,
+                    title="Artifact Detection View",
+                )
+            except Exception as e:
+                print(f"    [WARN] Artifact viewer failed to open: {e}")
+
     epochs = make_epochs(filtered, epoch_length)
     epochs, flagged = auto_reject_epochs(epochs, threshold=threshold)
 
@@ -230,4 +263,4 @@ def preprocess(
         print("\n[PREPROCESS] Non-interactive mode; using auto-flagged only.")
 
     clean_data = finalize_epochs(epochs, bad_indices)
-    return clean_data, epochs
+    return clean_data, epochs, artifact_result
