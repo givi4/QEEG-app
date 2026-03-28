@@ -420,13 +420,10 @@ def generate_report(
 # PLACEHOLDER METADATA — replace with real values or UI input later
 # ─────────────────────────────────────────────────────────────────────────────
 def default_metadata(raw, n_epochs: int, edf_path: str) -> dict:
-    """
-    Returns a metadata dict with placeholder values.
-    In the Streamlit UI these will come from form fields.
-    """
     return {
         "patient_name": "Test Patient",
         "patient_id":   "001",
+        "patient_age":  35,        # ← add this line
         "date":         datetime.now().strftime("%Y-%m-%d"),
         "clinician":    "—",
         "notes":        "Eyes closed, resting state",

@@ -80,32 +80,78 @@ def make_epochs(raw: mne.io.Raw, epoch_length: float = EPOCH_LENGTH) -> mne.Epoc
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# STEP 3 — AUTO-REJECTION (amplitude threshold)
+# STEP 3 — AUTO-REJECTION (Autoreject or fallback threshold)
 # ─────────────────────────────────────────────────────────────────────────────
 def auto_reject_epochs(
-    epochs: mne.Epochs,
-    threshold: float = AMPLITUDE_THRESHOLD
+    epochs:    mne.Epochs,
+    threshold: float = None,
 ) -> tuple[mne.Epochs, list[int]]:
     """
-    Flag epochs where any channel exceeds ±threshold (default 100 µV).
-    Returns the epochs object with bad epochs marked, plus a list of
-    flagged epoch indices for display in the reviewer.
+    Automatic artifact rejection using Autoreject (Jas et al. 2017).
+    Learns optimal per-channel thresholds from the data itself using
+    cross-validation — no fixed threshold needed.
 
-    Does NOT drop epochs yet — that happens after manual review.
+    Falls back to peak-to-peak threshold (75µV) if autoreject
+    is not installed.
+
+    Returns cleaned epochs object and list of dropped indices.
     """
-    print(f"\n[PREPROCESS] Auto-rejection at ±{threshold*1e6:.0f} µV...")
+    try:
+        from autoreject import AutoReject
 
-    data         = epochs.get_data()          # shape: (n_epochs, n_ch, n_times)
-    peak_to_peak = data.max(axis=2) - data.min(axis=2)   # per epoch per channel
-    bad_mask     = (peak_to_peak > threshold).any(axis=1) # True if any ch exceeds
-    flagged      = np.where(bad_mask)[0].tolist()
+        print(f"\n[PREPROCESS] Auto-rejection via Autoreject (data-adaptive)...")
+        print(f"    Learning thresholds from data — this may take 30-60 seconds...")
 
-    print(f"    Epochs flagged   : {len(flagged)} / {len(epochs)}")
+        ar = AutoReject(
+            n_interpolate=[1, 2, 4],
+            random_state=42,
+            verbose=False,
+        )
+
+        epochs_clean = ar.fit_transform(epochs)
+
+        n_original = len(epochs.drop_log)
+        n_kept     = len(epochs_clean)
+        n_dropped  = n_original - n_kept
+        pct        = 100 * n_dropped / n_original
+
+        print(f"    Epochs kept    : {n_kept} / {n_original}")
+        print(f"    Epochs dropped : {n_dropped} ({pct:.0f}%)")
+
+        if pct > 60:
+            print(f"    ⚠️  Over 60% rejected — recording quality may be poor.")
+            print(f"       Check electrode impedances and patient movement.")
+
+        flagged = [i for i, log in enumerate(epochs_clean.drop_log) if len(log) > 0]
+        return epochs_clean, flagged
+
+    except ImportError:
+        print(f"\n[PREPROCESS] Autoreject not installed — falling back to 75µV threshold.")
+        print(f"    Install with: pip install autoreject")
+        return _threshold_reject(epochs)
+
+
+def _threshold_reject(
+    epochs:       mne.Epochs,
+    threshold_uv: float = 75e-6,
+) -> tuple[mne.Epochs, list[int]]:
+    """
+    Fallback: simple peak-to-peak amplitude rejection at 75µV.
+    Standard threshold for eyes-open EEG.
+    """
+    print(f"\n[PREPROCESS] Auto-rejection at ±{threshold_uv*1e6:.0f} µV (fallback)...")
+
+    data     = epochs.get_data()
+    p2p      = data.max(axis=2) - data.min(axis=2)
+    bad_mask = (p2p > threshold_uv).any(axis=1)
+    flagged  = np.where(bad_mask)[0].tolist()
+
+    print(f"    Epochs flagged : {len(flagged)} / {len(epochs)}")
+
     if flagged:
-        print(f"    Flagged indices  : {flagged}")
+        epochs.drop(flagged, verbose=False)
 
     return epochs, flagged
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # STEP 4 — INTERACTIVE REVIEWER
@@ -229,7 +275,7 @@ def preprocess(
     """
     filtered      = filter_raw(raw)
     epochs        = make_epochs(filtered, epoch_length)
-    epochs, flagged = auto_reject_epochs(epochs, threshold)
+    epochs, flagged = auto_reject_epochs(epochs)
 
     if interactive:
         try:
