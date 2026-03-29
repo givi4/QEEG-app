@@ -7,6 +7,7 @@ optionally rereference before downstream analysis.
 
 import re
 from collections import Counter
+from pathlib import Path
 
 import mne
 import numpy as np
@@ -130,6 +131,10 @@ def _find_linked_ears_bridge(raw: mne.io.Raw, recording_reference: str) -> tuple
     return None
 
 
+def _looks_like_cleaner_output(path: str) -> bool:
+    return Path(path).stem.lower().endswith("_clean")
+
+
 def load_edf(
     path: str,
     verbose: bool = True,
@@ -214,13 +219,24 @@ def load_edf(
 
     if rereference == "linked_ears":
         if linked_ears_bridge is None or linked_ears_bridge_data is None:
-            raise RuntimeError(
-                "linked_ears rereference was requested, but no left/right ear "
-                "difference channel was found in the EDF."
-            )
-        _, bridge_sign = linked_ears_bridge
-        raw._data = raw._data + (bridge_sign * 0.5 * linked_ears_bridge_data[np.newaxis, :])
-        analysis_reference = "linked_ears"
+            if _looks_like_cleaner_output(path):
+                analysis_reference = "linked_ears"
+                if verbose:
+                    print(
+                        "  [INFO] Cleaner output detected with no ear bridge channel."
+                    )
+                    print(
+                        "  [INFO] Assuming the EDF is already in linked-ears reference."
+                    )
+            else:
+                raise RuntimeError(
+                    "linked_ears rereference was requested, but no left/right ear "
+                    "difference channel was found in the EDF."
+                )
+        else:
+            _, bridge_sign = linked_ears_bridge
+            raw._data = raw._data + (bridge_sign * 0.5 * linked_ears_bridge_data[np.newaxis, :])
+            analysis_reference = "linked_ears"
     elif rereference == "average":
         raw.set_eeg_reference(ref_channels="average", projection=False, verbose=False)
         analysis_reference = "average"

@@ -1,3 +1,4 @@
 @echo off
-set MPLBACKEND=qtagg
-python qeeg_pipeline.py
+cd /d "%~dp0"
+set MPLBACKEND=Agg
+streamlit run qeeg_launcher.py
